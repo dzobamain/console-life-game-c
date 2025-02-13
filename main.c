@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MODE_1D
+#define MODE_2D
 
 typedef struct
 {
@@ -39,7 +39,7 @@ int countNeighbors(CellState *gameField, int positionCell)
     return count;
 }
 
-CellState* updateCellState(CellState *gameField)
+CellState *updateCellState(CellState *gameField)
 {
     int numbertNeighbors;
 
@@ -47,18 +47,25 @@ CellState* updateCellState(CellState *gameField)
     {
         numbertNeighbors = countNeighbors(gameField, i);
 
-        if (gameField[i].currentState == 1) {
-            if (numbertNeighbors == 1) {
-                gameField[i].nextState = 1;
-            } else {
-                gameField[i].nextState = 0; 
-            }
-        } 
-        else 
+        if (gameField[i].currentState == 1)
         {
-            if (numbertNeighbors == 1) {
+            if (numbertNeighbors == 1)
+            {
                 gameField[i].nextState = 1;
-            } else {
+            }
+            else
+            {
+                gameField[i].nextState = 0;
+            }
+        }
+        else
+        {
+            if (numbertNeighbors == 1)
+            {
+                gameField[i].nextState = 1;
+            }
+            else
+            {
                 gameField[i].nextState = 0;
             }
         }
@@ -72,14 +79,13 @@ CellState* updateCellState(CellState *gameField)
     return gameField;
 }
 
-
 #endif // MODE_1D
 
 #ifdef MODE_2D
 #define HEIGHT 100
 #define LENGHT 100
 
-void printArrayToConsole(CellState** gameField)
+void printArrayToConsole(CellState **gameField)
 {
     char sumbols[2] = {'-', '#'};
     for (int i = 0; i < HEIGHT; i++)
@@ -95,21 +101,25 @@ void printArrayToConsole(CellState** gameField)
     }
 }
 
-int countNeighbors(CellState** gameField, int row, int col)
+int countNeighbors(CellState **gameField, int row, int col)
 {
     int count = 0;
 
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
+    for (int i = -1; i <= 1; i++)
+    {
+        for (int j = -1; j <= 1; j++)
+        {
             if (i == 0 && j == 0)
                 continue;
 
             int neighborRow = row + i;
             int neighborCol = col + j;
 
-            if (neighborRow >= 0 && neighborRow < HEIGHT && neighborCol >= 0 && neighborCol < LENGHT) {
-                if (gameField[neighborRow][neighborCol].currentState == 1) {
-                    count++; 
+            if (neighborRow >= 0 && neighborRow < HEIGHT && neighborCol >= 0 && neighborCol < LENGHT)
+            {
+                if (gameField[neighborRow][neighborCol].currentState == 1)
+                {
+                    count++;
                 }
             }
         }
@@ -118,7 +128,7 @@ int countNeighbors(CellState** gameField, int row, int col)
     return count;
 }
 
-CellState** updateCellState(CellState **gameField)
+CellState **updateCellState(CellState **gameField)
 {
     int numbertNeighbors;
 
@@ -162,12 +172,13 @@ void sleep_ms(int milliseconds);
 int main()
 {
 #ifdef MODE_1D
-    CellState* gameField = (CellState*)malloc(LENGHT * sizeof(CellState));
-    if (gameField == NULL) {
+    CellState *gameField = (CellState *)malloc(LENGHT * sizeof(CellState));
+    if (gameField == NULL)
+    {
         printf("Не вдалося виділити пам'ять!\n");
         return 1;
     }
-    for (int i = 0; i < LENGHT; i++) 
+    for (int i = 0; i < LENGHT; i++)
     {
         gameField[i].currentState = 0;
         gameField[i].nextState = 0;
@@ -185,32 +196,32 @@ int main()
     } while (isStarted);
 #endif
 #ifdef MODE_2D
-    CellState** gameField = (CellState**)malloc(HEIGHT * sizeof(CellState*));
+    CellState **gameField = (CellState **)malloc(HEIGHT * sizeof(CellState *));
     for (int i = 0; i < HEIGHT; i++)
     {
-        gameField[i] = (CellState*)malloc(LENGHT * sizeof(CellState));
-        for (int j = 0; j < LENGHT; j++) 
+        gameField[i] = (CellState *)malloc(LENGHT * sizeof(CellState));
+        for (int j = 0; j < LENGHT; j++)
         {
             gameField[i][j].currentState = 0;
             gameField[i][j].nextState = 0;
         }
     }
 
-    gameField[50][50].currentState = 1;
-    gameField[51][51].currentState = 1;
-    gameField[52][49].currentState = 1;
-    gameField[52][50].currentState = 1;
-    gameField[52][51].currentState = 1;
+    for (int i = 0; i < 1500; i++)
+    {
+        int row = rand() % HEIGHT;
+        int col = rand() % LENGHT;
+        gameField[row][col].currentState = 1;
+    }
 
     bool isStarted = true;
     do
     {
         printArrayToConsole(gameField);
         gameField = updateCellState(gameField);
-        sleep_ms(500);
+        sleep_ms(50);
     } while (isStarted);
-    
-    
+
 #endif
     return 0;
 }

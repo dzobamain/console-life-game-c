@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "stdlib.h": "c"
+        "bitset": "c",
+        "unordered_map": "c",
+        "__node_handle": "c"
     }
 }

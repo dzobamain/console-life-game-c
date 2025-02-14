@@ -2,6 +2,8 @@
     "files.associations": {
         "bitset": "c",
         "unordered_map": "c",
-        "__node_handle": "c"
+        "__node_handle": "c",
+        "mode_1d.h": "c",
+        "stdlib.h": "c"
     }
 }

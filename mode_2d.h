@@ -52,6 +52,8 @@ int countNeighbors(CellState **gameField, int row, int col)
 CellState **updateCellState(CellState **gameField)
 {
     int numbertNeighbors;
+    int B = 3;
+    int S[2] = {2, 3};
 
     for (int i = 0; i < HEIGHT; i++)
     {
@@ -61,7 +63,7 @@ CellState **updateCellState(CellState **gameField)
 
             if (gameField[i][j].currentState == 1)
             {
-                if (numbertNeighbors == 2 || numbertNeighbors == 3)
+                if (numbertNeighbors == S[0] || numbertNeighbors == S[1])
                     gameField[i][j].nextState = 1;
                 else
                     gameField[i][j].nextState = 0;

@@ -20,54 +20,59 @@ void printArrayToConsole(CellState *gameField)
 int countNeighbors(CellState *gameField, int positionCell)
 {
     int count = 0;
+    int range = 1;
 
-    if (positionCell > 0 && gameField[positionCell - 1].currentState == 1)
-        count++;
-    if (positionCell < LENGHT - 1 && gameField[positionCell + 1].currentState == 1)
-        count++;
-
+    for (int i = 1; i <= range; i++)
+    {
+        if (positionCell >= i && gameField[positionCell - i].currentState == 1)
+            count++;
+        if (positionCell < LENGHT - i && gameField[positionCell + i].currentState == 1)
+            count++; 
+    }
     return count;
 }
 
-CellState *updateCellState(CellState *gameField)
-{
-    int numbertNeighbors;
-
-    for (int i = 0; i < LENGHT; i++)
+    CellState *updateCellState(CellState * gameField)
     {
-        numbertNeighbors = countNeighbors(gameField, i);
+        int numbertNeighbors;
+        int B = 1;
+        int S = 1;
 
-        if (gameField[i].currentState == 1)
+        for (int i = 0; i < LENGHT; i++)
         {
-            if (numbertNeighbors == 1)
+            numbertNeighbors = countNeighbors(gameField, i);
+
+            if (gameField[i].currentState == 1)
             {
-                gameField[i].nextState = 1;
+                if (numbertNeighbors == S)
+                {
+                    gameField[i].nextState = 1;
+                }
+                else
+                {
+                    gameField[i].nextState = 0;
+                }
             }
             else
             {
-                gameField[i].nextState = 0;
+                if (numbertNeighbors == B)
+                {
+                    gameField[i].nextState = 1;
+                }
+                else
+                {
+                    gameField[i].nextState = 0;
+                }
             }
         }
-        else
+
+        for (int i = 0; i < LENGHT; i++)
         {
-            if (numbertNeighbors == 1)
-            {
-                gameField[i].nextState = 1;
-            }
-            else
-            {
-                gameField[i].nextState = 0;
-            }
+            gameField[i].currentState = gameField[i].nextState;
         }
-    }
 
-    for (int i = 0; i < LENGHT; i++)
-    {
-        gameField[i].currentState = gameField[i].nextState;
+        return gameField;
     }
-
-    return gameField;
-}
 
 #endif // MODE_1D
 #endif // MODE_1D_H
